@@ -68,6 +68,7 @@ require_once( TF_PATH . 'lib/class-option-select-categories.php' );
 require_once( TF_PATH . 'lib/class-option-select-pages.php' );
 require_once( TF_PATH . 'lib/class-option-select-posts.php' );
 require_once( TF_PATH . 'lib/class-option-select-post-types.php' );
+require_once( TF_PATH . 'lib/class-option-select-users.php' );
 require_once( TF_PATH . 'lib/class-option-separator.php' );
 require_once( TF_PATH . 'lib/class-option-sortable.php' );
 require_once( TF_PATH . 'lib/class-option-text.php' );
