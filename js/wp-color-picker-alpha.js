@@ -4,9 +4,9 @@
  * Overwrite Automattic Iris for enabled Alpha Channel in wpColorPicker
  * Only run in input and is defined data alpha in true
  *
- * Version: 2.1.3
+ * Version: 2.1.4
  * https://github.com/kallookoo/wp-color-picker-alpha
- * Licensed under the GPLv2 license.
+ * Licensed under the GPLv2 license or later.
  */
 ( function( $ ) {
 	// Prevent double-init.
@@ -20,8 +20,16 @@
 		_after = '<div class="wp-picker-holder" />',
 		_wrap = '<div class="wp-picker-container" />',
 		_button = '<input type="button" class="button button-small" />',
-		// Prevent CSS issues in < WordPress 4.9
-		_deprecated = ( wpColorPickerL10n.current !== undefined && wpColorPickerL10n.clearAriaLabel !== undefined && wpColorPickerL10n.defaultAriaLabel !== undefined );
+		_deprecated = false,
+		__ = wp.i18n.__;
+
+		// WP < 5.5
+		if ( "undefined" !== typeof wpColorPickerL10n  ) {
+
+			// Prevent CSS issues in < WordPress 4.9
+			_deprecated = ( undefined !== wpColorPickerL10n.current  );
+		}
+
 		// Declare some global variables when is deprecated or not
 		if ( _deprecated ) {
 			var _before = '<a tabindex="0" class="wp-color-result" />';
@@ -96,34 +104,22 @@
 				self.toggler         = $( _before )
 					.insertBefore( el )
 					.css( { backgroundColor : self.initialValue } )
-					.attr( 'title', wpColorPickerL10n.pick )
-					.attr( 'data-current', wpColorPickerL10n.current );
+					.attr( 'title', __('Select Color') )
+					.attr( 'data-current', __('Current') );
 				self.pickerContainer = $( _after ).insertAfter( el );
-
 				self.button          = $( _button ).addClass('hidden');
 			} else {
-				// console.log(el.parent( 'label' ).length);
 				/*
 				 * Check if there's already a wrapping label, e.g. in the Customizer.
 				 * If there's no label, add a default one to match the Customizer template.
 				 */
-				 // el.wrap( _wrappingLabel );
-				 // self.wrappingLabelText = $( _wrappingLabelText )
-				 // 	.insertBefore( el )
-					// .text( wpColorPickerL10n.defaultLabel );
 				if ( ! el.parent( 'label' ).length ) {
-
 					// Wrap the input field in the default label.
 					el.wrap( _wrappingLabel );
 					// Insert the default label text.
 					self.wrappingLabelText = $( _wrappingLabelText )
 						.insertBefore( el )
-						.text( wpColorPickerL10n.defaultLabel );
-				} else {
-					el.wrap( _wrappingLabel );
-					// // self.wrappingLabelText = $( _wrappingLabelText )
-					// 	.insertBefore( el )
-						// .text( wpColorPicke	rL10n.defaultLabel );
+						.text( __('Color value') );
 				}
 
 				/*
@@ -141,7 +137,7 @@
 					.insertBefore( self.wrappingLabel )
 					.css( { backgroundColor: self.initialValue } );
 				// Set the toggle button span element text.
-				self.toggler.find( '.wp-color-result-text' ).text( wpColorPickerL10n.pick );
+				self.toggler.find( '.wp-color-result-text' ).text( __('Select Color') );
 				// Set up the Iris container and insert it after the wrapping label.
 				self.pickerContainer = $( _after ).insertAfter( self.wrappingLabel );
 				// Store a reference to the Clear/Default button.
@@ -150,14 +146,14 @@
 
 			// Set up the Clear/Default button.
 			if ( self.options.defaultColor ) {
-				self.button.addClass( 'wp-picker-default' ).val( wpColorPickerL10n.defaultString );
+				self.button.addClass( 'wp-picker-default' ).val( __('Default') );
 				if ( ! _deprecated ) {
-					self.button.attr( 'aria-label', wpColorPickerL10n.defaultAriaLabel );
+					self.button.attr( 'aria-label', __('Select default color') );
 				}
 			} else {
-				self.button.addClass( 'wp-picker-clear' ).val( wpColorPickerL10n.clear );
+				self.button.addClass( 'wp-picker-clear' ).val( __('clear') );
 				if ( ! _deprecated ) {
-					self.button.attr( 'aria-label', wpColorPickerL10n.clearAriaLabel );
+					self.button.attr( 'aria-label', __('Clear color') );
 				}
 			}
 
@@ -212,7 +208,7 @@
 
 						self.toggler.find( 'span.color-alpha' ).css( {
 							'width'                     : '30px',
-							'height'                    : '24px',
+							'height'                    : '100%',
 							'position'                  : 'absolute',
 							'top'                       : 0,
 							'left'                      : 0,
@@ -332,6 +328,7 @@
 					if ( $.isFunction( self.options.clear ) )
 						self.options.clear.call( this, event );
 
+					self.element.trigger( 'change' );
 				} else if ( $( this ).hasClass( 'wp-picker-default' ) ) {
 					self.element.val( self.options.defaultColor ).change();
 				}
@@ -467,6 +464,7 @@
 					self._change();
 				} );
 			}
+			el.trigger( 'change' );
 		},
 		_addInputListeners: function( input ) {
 			var self            = this,
