@@ -26,7 +26,6 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 		'show_text_transform' => true,
 		'show_font_variant' => true,
 		'show_text_shadow' => true,
-		'show_preview' => true,
 		'enqueue' => true,
 		'preview_text' => '',
 		'include_fonts' => '', // A regex string or array of regex strings to match font names to include.
@@ -519,11 +518,6 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 				'text': $container.find("iframe").attr('data-preview-text')
 			}
 
-			// Update preview
-			if ( $container.find('iframe').is(':not([data-visible=false])') ) {
-				$container.find('iframe').attr('src', '<?php echo TitanFramework::getURL( 'iframe-font-preview.php?', __FILE__ ) ?>' + $.param(params) );
-			}
-
 			// Update hidden save field
 			$container.find('.tf-for-saving').val(serialize(params));
 			if ( doTrigger ) {
@@ -893,18 +887,6 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 		</div>
 		<?php
 
-		$visibilityAttrs = '';
-		if ( ! $this->settings['show_preview'] ) {
-			$visibilityAttrs = "data-visible='false' style='display: none'";
-		}
-		?>
-		<div <?php echo $visibilityAttrs ?>>
-			<iframe data-preview-text='<?php echo esc_attr( $this->settings['preview_text'] ) ?>'></iframe>
-			<i class='dashicons dashicons-admin-appearance btn-dark'></i>
-			<input type='hidden' class='tf-font-sel-dark' value='<?php echo esc_attr( $value['dark'] ? 'dark' : '' ) ?>'/>
-		</div>
-		<?php
-
 		if ( ! is_serialized( $value ) ) {
 			$value = serialize( $value );
 		}
@@ -996,7 +978,6 @@ function registerTitanFrameworkOptionFontControl() {
 		public $params;
 
 		public function render_content() {
-			$this->params['show_preview'] = false;
 			TitanFrameworkOptionFont::createFontScript();
 
 			?>
@@ -1346,18 +1327,6 @@ function registerTitanFrameworkOptionFontControl() {
 					?>
 				</select>
 			</label>
-			</div>
-			<?php
-
-			$visibilityAttrs = '';
-			if ( ! $this->params['show_preview'] ) {
-				$visibilityAttrs = "data-visible='false' style='display: none'";
-			}
-			?>
-			<div <?php echo $visibilityAttrs ?>>
-				<iframe></iframe>
-				<i class='dashicons dashicons-admin-appearance btn-dark'></i>
-				<input type='hidden' class='tf-font-sel-dark' value='<?php echo esc_attr( $value['dark'] ? 'dark' : '' ) ?>'/>
 			</div>
 			<?php
 
