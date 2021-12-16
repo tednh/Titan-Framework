@@ -76,7 +76,7 @@ if ( class_exists( 'TitanFrameworkOption' ) ) {
 					global $pagenow;
 
 					if ( isset( $_GET ) ) {
-						$get = (array) $_GET;
+						$get = array_map( 'htmlspecialchars', $_GET );
 					}
 
 					if ( isset( $get['eddactivate'] ) ) {
@@ -143,7 +143,7 @@ if ( class_exists( 'TitanFrameworkOption' ) ) {
 						global $pagenow;
 
 						if ( isset( $_GET ) ) {
-							$get = (array) $_GET;
+							$get = array_map( 'htmlspecialchars', $_GET );
 						}
 
 						$get['eddactivate'] = true;

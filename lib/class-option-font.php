@@ -555,7 +555,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 		}
 		?>
 		<div>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Font Family
 			<select class='tf-font-sel-family'>
 				<option value='inherit'>inherit</option>
@@ -649,7 +649,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 			$visibilityAttrs = "data-visible='false' style='display: block'";
 		}
 		?>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Color
 			<input class='tf-font-sel-color' type="text" value="<?php echo esc_attr( $value['color'] ) ?>"  data-default-color="<?php echo esc_attr( $value['color'] ) ?>"/>
 		</label>
@@ -660,7 +660,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 			$visibilityAttrs = "data-visible='false' style='display: none'";
 		}
 		?>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Font Size
 			<select class='tf-font-sel-size'>
 				<option value='inherit'>inherit</option>
@@ -689,7 +689,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 			$visibilityAttrs = "data-visible='false' style='display: none'";
 		}
 		?>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Font Weight
 			<select class='tf-font-sel-weight'>
 				<option value='inherit'>inherit</option>
@@ -712,7 +712,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 			$visibilityAttrs = "data-visible='false' style='display: none'";
 		}
 		?>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Font Style
 			<select class='tf-font-sel-style'>
 				<?php
@@ -734,7 +734,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 			$visibilityAttrs = "data-visible='false' style='display: none'";
 		}
 		?>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Line Height
 			<select class='tf-font-sel-height'>
 				<?php
@@ -755,7 +755,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 			$visibilityAttrs = "data-visible='false' style='display: none'";
 		}
 		?>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Letter Spacing
 			<select class='tf-font-sel-spacing'>
 				<option value='normal'>normal</option>
@@ -777,7 +777,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 			$visibilityAttrs = "data-visible='false' style='display: none'";
 		}
 		?>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Text Transform
 			<select class='tf-font-sel-transform'>
 				<?php
@@ -799,7 +799,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 			$visibilityAttrs = "data-visible='false' style='display: none'";
 		}
 		?>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Font Variant
 			<select class='tf-font-sel-variant'>
 				<?php
@@ -821,7 +821,7 @@ class TitanFrameworkOptionFont extends TitanFrameworkOption {
 			$visibilityAttrs = "data-visible='false' style='display: none'";
 		}
 		?>
-		<label <?php echo $visibilityAttrs ?>>
+		<label <?php echo $visibilityAttrs; ?>>
 			Shadow Location
 			<select class='tf-font-sel-location'>
 				<?php
