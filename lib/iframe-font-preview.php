@@ -100,12 +100,10 @@ if ( $textShadowLocation != 'none' ) {
 				}
 			}
 
-			printf( "<link rel='stylesheet' href='//fonts.googleapis.com/css?family=%s:400,%s&subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,vietnamese,cyrillic' type='text/css' media='all' />",
-				str_replace( ' ', '+', str_replace( '%20', '+', $fontFamily ) ),
-				implode( ',', $weight )
-			);
-
+			printf( "<link rel='stylesheet' href='//fonts.googleapis.com/css?subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,vietnamese,cyrillic' type='text/css' media='all' />");
+			$fontFamily = str_replace( ' ', '+', str_replace( '%20', '+', $fontFamily ) );
 			$fontFamily = '"' . $fontFamily . '"';
+			$weight = implode( ',', $weight );
 		} else {
 			$fontFamily = str_replace( '&quot;', '"', stripslashes( $fontFamily ) );
 		}
@@ -134,6 +132,10 @@ if ( $textShadowLocation != 'none' ) {
 				-moz-user-select: none;
 				-ms-user-select: none;
 				user-select: none;
+				font-family: <?php echo $fontFamily; ?>;
+				<?php if (! empty($weight) ) { ?>
+					font-weight: <?php echo $weight; ?>;
+				<?php } ?>
 			}
 			body.dark {
 				background: #333;
