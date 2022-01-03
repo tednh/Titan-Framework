@@ -8,28 +8,26 @@ if ( empty( $_GET ) ) {
 }
 
 // Sanitize the inputs
-foreach ( $_GET as $key => $value ) {
-	$_GET[ $key ] = htmlspecialchars( $value );
-}
+$get = array_map( 'htmlspecialchars', $_GET );
 
 // Set the defaults
-$textShadowLocation = ! empty( $_GET['text-shadow-location'] ) ? $_GET['text-shadow-location'] : 'none';
-$textShadowDistance = ! empty( $_GET['text-shadow-distance'] ) ? $_GET['text-shadow-distance'] : '0px';
-$textShadowBlur = ! empty( $_GET['text-shadow-blur'] ) ? $_GET['text-shadow-blur'] : '0px';
-$textShadowColor = ! empty( $_GET['text-shadow-color'] ) ? $_GET['text-shadow-color'] : '#333333';
-$textShadowOpacity = ! empty( $_GET['text-shadow-opacity'] ) ? $_GET['text-shadow-opacity'] : '1';
-$fontFamily = ! empty( $_GET['font-family'] ) ? $_GET['font-family'] : 'Open+Sans';
-$fontType = ! empty( $_GET['font-type'] ) ? $_GET['font-type'] : 'google';
-$fontWeight = ! empty( $_GET['font-weight'] ) ? $_GET['font-weight'] : 'normal';
-$fontStyle = ! empty( $_GET['font-style'] ) ? $_GET['font-style'] : 'normal';
-$fontSize = ! empty( $_GET['font-size'] ) ? $_GET['font-size'] : '13px';
-$color = ! empty( $_GET['color'] ) ? $_GET['color'] : '#333333';
-$lineHeight = ! empty( $_GET['line-height'] ) ? $_GET['line-height'] : '1.5em';
-$letterSpacing = ! empty( $_GET['letter-spacing'] ) ? $_GET['letter-spacing'] : 'normal';
-$textTransform = ! empty( $_GET['text-transform'] ) ? $_GET['text-transform'] : 'none';
-$fontVariant = ! empty( $_GET['font-variant'] ) ? $_GET['font-variant'] : 'normal';
-$isDarkBody = ! empty( $_GET['dark'] ) ? $_GET['dark'] : '';
-$text = ! empty( $_GET['text'] ) ? $_GET['text'] : '';
+$textShadowLocation = ! empty( $get['text-shadow-location'] ) ? $get['text-shadow-location'] : 'none';
+$textShadowDistance = ! empty( $get['text-shadow-distance'] ) ? $get['text-shadow-distance'] : '0px';
+$textShadowBlur = ! empty( $get['text-shadow-blur'] ) ? $get['text-shadow-blur'] : '0px';
+$textShadowColor = ! empty( $get['text-shadow-color'] ) ? $get['text-shadow-color'] : '#333333';
+$textShadowOpacity = ! empty( $get['text-shadow-opacity'] ) ? $get['text-shadow-opacity'] : '1';
+$fontFamily = ! empty( $get['font-family'] ) ? $get['font-family'] : 'Open+Sans';
+$fontType = ! empty( $get['font-type'] ) ? $get['font-type'] : 'google';
+$fontWeight = ! empty( $get['font-weight'] ) ? $get['font-weight'] : 'normal';
+$fontStyle = ! empty( $get['font-style'] ) ? $get['font-style'] : 'normal';
+$fontSize = ! empty( $get['font-size'] ) ? $get['font-size'] : '13px';
+$color = ! empty( $get['color'] ) ? $get['color'] : '#333333';
+$lineHeight = ! empty( $get['line-height'] ) ? $get['line-height'] : '1.5em';
+$letterSpacing = ! empty( $get['letter-spacing'] ) ? $get['letter-spacing'] : 'normal';
+$textTransform = ! empty( $get['text-transform'] ) ? $get['text-transform'] : 'none';
+$fontVariant = ! empty( $get['font-variant'] ) ? $get['font-variant'] : 'normal';
+$isDarkBody = ! empty( $get['dark'] ) ? $get['dark'] : '';
+$text = ! empty( $get['text'] ) ? $get['text'] : '';
 
 // @see	http://bavotasan.com/2011/convert-hex-color-to-rgb-using-php/
 function hex2rgb( $hex ) {
@@ -102,12 +100,10 @@ if ( $textShadowLocation != 'none' ) {
 				}
 			}
 
-			printf( "<link rel='stylesheet' href='//fonts.googleapis.com/css?family=%s:400,%s&subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,vietnamese,cyrillic' type='text/css' media='all' />",
-				str_replace( ' ', '+', str_replace( '%20', '+', $fontFamily ) ),
-				implode( ',', $weight )
-			);
-
+			printf( "<link rel='stylesheet' href='//fonts.googleapis.com/css?subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,vietnamese,cyrillic' type='text/css' media='all' />");
+			$fontFamily = str_replace( ' ', '+', str_replace( '%20', '+', $fontFamily ) );
 			$fontFamily = '"' . $fontFamily . '"';
+			$weight = implode( ',', $weight );
 		} else {
 			$fontFamily = str_replace( '&quot;', '"', stripslashes( $fontFamily ) );
 		}
@@ -116,16 +112,16 @@ if ( $textShadowLocation != 'none' ) {
 			p {
 				margin-left: 50px;
 				margin-right: 20px;
-				font-family: <?php echo $fontFamily ?>;
-				color: <?php echo $color ?>;
-				font-size: <?php echo $fontSize ?>;
-				font-weight: <?php echo $fontWeight ?>;
-				font-style: <?php echo $fontStyle ?>;
-				line-height: <?php echo $lineHeight ?>;
-				letter-spacing: <?php echo $letterSpacing ?>;
-				text-transform: <?php echo $textTransform ?>;
-				font-variant: <?php echo $fontVariant ?>;
-				text-shadow: <?php echo $textShadow ?>;
+				font-family: <?php echo $fontFamily; ?>;
+				color: <?php echo $color; ?>;
+				font-size: <?php echo $fontSize; ?>;
+				font-weight: <?php echo $fontWeight; ?>;
+				font-style: <?php echo $fontStyle; ?>;
+				line-height: <?php echo $lineHeight; ?>;
+				letter-spacing: <?php echo $letterSpacing; ?>;
+				text-transform: <?php echo $textTransform; ?>;
+				font-variant: <?php echo $fontVariant; ?>;
+				text-shadow: <?php echo $textShadow; ?>;
 			}
 			body {
 				margin: 20px 0;
@@ -136,6 +132,10 @@ if ( $textShadowLocation != 'none' ) {
 				-moz-user-select: none;
 				-ms-user-select: none;
 				user-select: none;
+				font-family: <?php echo $fontFamily; ?>;
+				<?php if (! empty($weight) ) { ?>
+					font-weight: <?php echo $weight; ?>;
+				<?php } ?>
 			}
 			body.dark {
 				background: #333;

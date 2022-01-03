@@ -136,7 +136,7 @@ class TitanFrameworkAdminPage {
 		}
 
 		if ( isset( $_POST[ $this->getOptionNamespace() . '_' . $option->settings['id'] ] ) ) {
-			$value = $_POST[ $this->getOptionNamespace() . '_' . $option->settings['id'] ];
+			$value = htmlspecialchars( $_POST[ $this->getOptionNamespace() . '_' . $option->settings['id'] ] );
 		} else {
 			$value = '';
 		}

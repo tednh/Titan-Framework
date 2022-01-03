@@ -85,7 +85,7 @@ class TitanFrameworkOptionGallery extends TitanFrameworkOption {
 		jQuery(document).ready(function($){
 			"use strict";
 
-    	function tfUploadOptionCenterImage($this) {
+		function tfUploadOptionCenterImage($this) {
 
 				var _preview = $this.parents('.tf-gallery').find('.thumbnail');
 				$this.css({
@@ -107,14 +107,14 @@ class TitanFrameworkOptionGallery extends TitanFrameworkOption {
 
 
 			// Creating attachments arr.
-      var get_attachments_of_gallery = function(preview, input) {
-        var $attachments_str = [];
-        preview.find('.used-thumbnail').each(function(i, object){
-            $attachments_str.push($(object).attr('data-attachment-id'));
-        });
-        input.val($attachments_str.join(','));
-        input.trigger('change');
-      }
+			var get_attachments_of_gallery = function(preview, input) {
+				var $attachments_str = [];
+				preview.find('.used-thumbnail').each(function(i, object){
+					$attachments_str.push($(object).attr('data-attachment-id'));
+				});
+				input.val($attachments_str.join(','));
+				input.trigger('change');
+			}
 
 
 			// Remove the image when the remove link is clicked.
@@ -126,7 +126,7 @@ class TitanFrameworkOptionGallery extends TitanFrameworkOption {
 				$(this).parents('.thumbnail').remove();
 				get_attachments_of_gallery(_preview, _input);
 
-        return false;
+				return false;
 			});
 
 
@@ -145,50 +145,63 @@ class TitanFrameworkOptionGallery extends TitanFrameworkOption {
 					library: { type: 'image' },
 					button : { text : '<?php esc_html_e( 'Use image', TF_I18NDOMAIN ) ?>' }
 				});
+				frame.on('open',function() {
+
+					var selection = frame.state().get('selection');
+					if(_input.val()!="") {
+						var ids = _input.val().split(',');
+						ids.forEach(function(id) {
+							var attachment = wp.media.attachment(id);
+							attachment.fetch();
+							selection.add( attachment ? [ attachment ] : [] );
+						});
+					}
+
+				});
 
 				// Get the url when done.
 				frame.on('select', function() {
 					var selection = frame.state().get('selection');
 
-            if ( _preview.find('div.thumbnail').length > 0 ) {
-                // Remove current preview.
-                _preview.find('.used-thumbnail').remove();
-            }
+					if ( _preview.find('div.thumbnail').length > 0 ) {
+						// Remove current preview.
+						_preview.find('.used-thumbnail').remove();
+					}
 
-            var $attachments_str = [];
-            selection.each(function(attachment) {
+					var $attachments_str = [];
+					selection.each(function(attachment) {
 
-							if ( typeof attachment.attributes.sizes === 'undefined' ) {
-								return;
-							}
+						if ( typeof attachment.attributes.sizes === 'undefined' ) {
+							return;
+						}
 
-              $attachments_str.push(attachment.id);
+			  			$attachments_str.push(attachment.id);
 
-              // Get the preview image.
-              var image = attachment.attributes.sizes.full;
-              if ( typeof attachment.attributes.sizes.thumbnail != 'undefined' ) {
-                  image = attachment.attributes.sizes.thumbnail;
-              }
-              var url = image.url;
-              // var marginTop = ( _preview.height() - image.height ) / 2;
-              // var marginLeft = ( _preview.width() - image.width ) / 2;
+						// Get the preview image.
+						var image = attachment.attributes.sizes.full;
+						if ( typeof attachment.attributes.sizes.thumbnail != 'undefined' ) {
+							image = attachment.attributes.sizes.thumbnail;
+						}
+						var url = image.url;
+						// var marginTop = ( _preview.height() - image.height ) / 2;
+						// var marginLeft = ( _preview.width() - image.width ) / 2;
 
-              $("<div data-attachment-id='"+attachment.id+"' class='thumbnail used-thumbnail tf-image-preview'><i class='dashicons dashicons-no-alt remove'></i><img style='max-width: 150px; max-height: 150px; margin-top: 0px; margin-left: 0px;' src='" + url + "'/></div>").prependTo(_preview);
+			  			$("<div data-attachment-id='"+attachment.id+"' class='thumbnail used-thumbnail tf-image-preview'><i class='dashicons dashicons-no-alt remove'></i><img style='max-width: 150px; max-height: 150px; margin-top: 0px; margin-left: 0px;' src='" + url + "'/></div>").prependTo(_preview);
 
 						_remove.show();
 					});
 
-            frame.off('select');
+					frame.off('select');
 
 
-            // Updating the attachments input field.
-            if ( _input.length > 0 ) {
-                _input.val($attachments_str.join(','));
-            }
+					// Updating the attachments input field.
+					if ( _input.length > 0 ) {
+						_input.val($attachments_str.join(','));
+					}
 
-            // We need to trigger a change so that WP would detect that we changed the value.
-            // Or else the save button won't be enabled.
-            _input.trigger('change');
+					// We need to trigger a change so that WP would detect that we changed the value.
+					// Or else the save button won't be enabled.
+					_input.trigger('change');
 				});
 
 				// Open the uploader.
